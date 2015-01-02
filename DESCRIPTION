@@ -1,5 +1,5 @@
 Package: lazyeval
-Version: 0.1.9
+Version: 0.1.10
 Title: Lazy (Non-Standard) Evaluation
 Description: A disciplined approach to non-standard evaluation.
 Authors@R: as.person(c(
@@ -9,12 +9,12 @@ Authors@R: as.person(c(
 License: GPL-3
 LazyData: true
 Depends: R (>= 3.1.0)
-Suggests: knitr, rmarkdown (>= 0.2.65), microbenchmark
+Suggests: knitr, rmarkdown (>= 0.2.65), microbenchmark, testthat
 VignetteBuilder: knitr
-Packaged: 2014-10-01 15:45:41 UTC; hadley
+Packaged: 2015-01-02 16:57:33 UTC; hadley
 Author: Hadley Wickham [aut, cre],
   RStudio [cph]
 Maintainer: Hadley Wickham <hadley@rstudio.com>
 NeedsCompilation: yes
 Repository: CRAN
-Date/Publication: 2014-10-01 18:28:28
+Date/Publication: 2015-01-02 18:01:12

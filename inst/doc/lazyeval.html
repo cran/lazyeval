@@ -9,7 +9,7 @@
 <meta name="generator" content="pandoc" />
 
 
-<meta name="date" content="2014-10-01" />
+<meta name="date" content="2015-01-02" />
 
 <title>Lazyeval: a new approach to NSE</title>
 
@@ -52,7 +52,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 
 <div id="header">
 <h1 class="title">Lazyeval: a new approach to NSE</h1>
-<h4 class="date"><em>2014-10-01</em></h4>
+<h4 class="date"><em>2015-01-02</em></h4>
 </div>
 
 
@@ -72,7 +72,7 @@ f &lt;-<span class="st"> </span>function(<span class="dt">x =</span> a -<span cl
 <span class="kw">f</span>()
 <span class="co">#&gt; &lt;lazy&gt;</span>
 <span class="co">#&gt;   expr: a - b</span>
-<span class="co">#&gt;   env:  &lt;environment: 0x7fedbb23c268&gt;</span>
+<span class="co">#&gt;   env:  &lt;environment: 0x7fd2f3a406b0&gt;</span>
 <span class="kw">f</span>(a +<span class="st"> </span>b)
 <span class="co">#&gt; &lt;lazy&gt;</span>
 <span class="co">#&gt;   expr: a + b</span>
@@ -106,22 +106,22 @@ h &lt;-<span class="st"> </span>function(i) {
 } 
 
 <span class="kw">subset2_</span>(mtcars, <span class="kw">lazy</span>(mpg &gt;<span class="st"> </span><span class="dv">31</span>))
-<span class="co">#&gt;     mpg cyl disp hp drat    wt  qsec vs am gear carb</span>
-<span class="co">#&gt; 18 32.4   4 78.7 66 4.08 2.200 19.47  1  1    4    1</span>
-<span class="co">#&gt; 20 33.9   4 71.1 65 4.22 1.835 19.90  1  1    4    1</span></code></pre>
+<span class="co">#&gt;     mpg cyl disp hp drat   wt qsec vs am gear carb</span>
+<span class="co">#&gt; 18 32.4   4 78.7 66 4.08 2.20 19.5  1  1    4    1</span>
+<span class="co">#&gt; 20 33.9   4 71.1 65 4.22 1.83 19.9  1  1    4    1</span></code></pre>
 <p><code>lazy_eval()</code> will always coerce it’s first argument into a lazy object, so a variety of specifications will work:</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">subset2_</span>(mtcars, ~mpg &gt;<span class="st"> </span><span class="dv">31</span>)
-<span class="co">#&gt;     mpg cyl disp hp drat    wt  qsec vs am gear carb</span>
-<span class="co">#&gt; 18 32.4   4 78.7 66 4.08 2.200 19.47  1  1    4    1</span>
-<span class="co">#&gt; 20 33.9   4 71.1 65 4.22 1.835 19.90  1  1    4    1</span>
+<span class="co">#&gt;     mpg cyl disp hp drat   wt qsec vs am gear carb</span>
+<span class="co">#&gt; 18 32.4   4 78.7 66 4.08 2.20 19.5  1  1    4    1</span>
+<span class="co">#&gt; 20 33.9   4 71.1 65 4.22 1.83 19.9  1  1    4    1</span>
 <span class="kw">subset2_</span>(mtcars, <span class="kw">quote</span>(mpg &gt;<span class="st"> </span><span class="dv">31</span>))
-<span class="co">#&gt;     mpg cyl disp hp drat    wt  qsec vs am gear carb</span>
-<span class="co">#&gt; 18 32.4   4 78.7 66 4.08 2.200 19.47  1  1    4    1</span>
-<span class="co">#&gt; 20 33.9   4 71.1 65 4.22 1.835 19.90  1  1    4    1</span>
+<span class="co">#&gt;     mpg cyl disp hp drat   wt qsec vs am gear carb</span>
+<span class="co">#&gt; 18 32.4   4 78.7 66 4.08 2.20 19.5  1  1    4    1</span>
+<span class="co">#&gt; 20 33.9   4 71.1 65 4.22 1.83 19.9  1  1    4    1</span>
 <span class="kw">subset2_</span>(mtcars, <span class="st">&quot;mpg &gt; 31&quot;</span>)
-<span class="co">#&gt;     mpg cyl disp hp drat    wt  qsec vs am gear carb</span>
-<span class="co">#&gt; 18 32.4   4 78.7 66 4.08 2.200 19.47  1  1    4    1</span>
-<span class="co">#&gt; 20 33.9   4 71.1 65 4.22 1.835 19.90  1  1    4    1</span></code></pre>
+<span class="co">#&gt;     mpg cyl disp hp drat   wt qsec vs am gear carb</span>
+<span class="co">#&gt; 18 32.4   4 78.7 66 4.08 2.20 19.5  1  1    4    1</span>
+<span class="co">#&gt; 20 33.9   4 71.1 65 4.22 1.83 19.9  1  1    4    1</span></code></pre>
 <p>Note that quoted called and strings don’t have environments associated with them, so <code>as.lazy()</code> defaults to using <code>baseenv()</code>. This will work if the expression is self-contained (i.e. doesn’t contain any references to variables in the local environment), and will otherwise fail quickly and robustly.</p>
 </div>
 <div id="non-standard-evaluation" class="section level2">
@@ -131,18 +131,18 @@ h &lt;-<span class="st"> </span>function(i) {
   <span class="kw">subset2_</span>(df, <span class="kw">lazy</span>(condition))
 }
 <span class="kw">subset2</span>(mtcars, mpg &gt;<span class="st"> </span><span class="dv">31</span>)
-<span class="co">#&gt;     mpg cyl disp hp drat    wt  qsec vs am gear carb</span>
-<span class="co">#&gt; 18 32.4   4 78.7 66 4.08 2.200 19.47  1  1    4    1</span>
-<span class="co">#&gt; 20 33.9   4 71.1 65 4.22 1.835 19.90  1  1    4    1</span></code></pre>
+<span class="co">#&gt;     mpg cyl disp hp drat   wt qsec vs am gear carb</span>
+<span class="co">#&gt; 18 32.4   4 78.7 66 4.08 2.20 19.5  1  1    4    1</span>
+<span class="co">#&gt; 20 33.9   4 71.1 65 4.22 1.83 19.9  1  1    4    1</span></code></pre>
 <p>This standard evaluation escape hatch is very important because it allows us to implement different NSE approaches. For example, we could create a subsetting function that finds all rows where a variable is above a threshold:</p>
 <pre class="sourceCode r"><code class="sourceCode r">above_threshold &lt;-<span class="st"> </span>function(df, var, threshold) {
   cond &lt;-<span class="st"> </span><span class="kw">interp</span>(~<span class="st"> </span>var &gt;<span class="st"> </span>x, <span class="dt">var =</span> <span class="kw">lazy</span>(var), <span class="dt">x =</span> threshold)
   <span class="kw">subset2_</span>(df, cond)
 }
 <span class="kw">above_threshold</span>(mtcars, mpg, <span class="dv">31</span>)
-<span class="co">#&gt;     mpg cyl disp hp drat    wt  qsec vs am gear carb</span>
-<span class="co">#&gt; 18 32.4   4 78.7 66 4.08 2.200 19.47  1  1    4    1</span>
-<span class="co">#&gt; 20 33.9   4 71.1 65 4.22 1.835 19.90  1  1    4    1</span></code></pre>
+<span class="co">#&gt;     mpg cyl disp hp drat   wt qsec vs am gear carb</span>
+<span class="co">#&gt; 18 32.4   4 78.7 66 4.08 2.20 19.5  1  1    4    1</span>
+<span class="co">#&gt; 20 33.9   4 71.1 65 4.22 1.83 19.9  1  1    4    1</span></code></pre>
 <p>Here we’re using <code>interp()</code> to modify a formula. We use the value of <code>threshold</code> and the expression in by <code>var</code>.</p>
 </div>
 <div id="scoping" class="section level2">
@@ -155,11 +155,11 @@ f1 &lt;-<span class="st"> </span>function(...) {
 }
 <span class="co"># Uses 30 instead of 31</span>
 <span class="kw">f1</span>(mpg &gt;<span class="st"> </span>x)
-<span class="co">#&gt;     mpg cyl disp  hp drat    wt  qsec vs am gear carb</span>
-<span class="co">#&gt; 18 32.4   4 78.7  66 4.08 2.200 19.47  1  1    4    1</span>
-<span class="co">#&gt; 19 30.4   4 75.7  52 4.93 1.615 18.52  1  1    4    2</span>
-<span class="co">#&gt; 20 33.9   4 71.1  65 4.22 1.835 19.90  1  1    4    1</span>
-<span class="co">#&gt; 28 30.4   4 95.1 113 3.77 1.513 16.90  1  1    5    2</span>
+<span class="co">#&gt;     mpg cyl disp  hp drat   wt qsec vs am gear carb</span>
+<span class="co">#&gt; 18 32.4   4 78.7  66 4.08 2.20 19.5  1  1    4    1</span>
+<span class="co">#&gt; 19 30.4   4 75.7  52 4.93 1.61 18.5  1  1    4    2</span>
+<span class="co">#&gt; 20 33.9   4 71.1  65 4.22 1.83 19.9  1  1    4    1</span>
+<span class="co">#&gt; 28 30.4   4 95.1 113 3.77 1.51 16.9  1  1    5    2</span>
 
 f2 &lt;-<span class="st"> </span>function(...) {
   x &lt;-<span class="st"> </span><span class="dv">30</span>
@@ -167,9 +167,9 @@ f2 &lt;-<span class="st"> </span>function(...) {
 }
 <span class="co"># Correctly uses 31</span>
 <span class="kw">f2</span>(mpg &gt;<span class="st"> </span>x)
-<span class="co">#&gt;     mpg cyl disp hp drat    wt  qsec vs am gear carb</span>
-<span class="co">#&gt; 18 32.4   4 78.7 66 4.08 2.200 19.47  1  1    4    1</span>
-<span class="co">#&gt; 20 33.9   4 71.1 65 4.22 1.835 19.90  1  1    4    1</span></code></pre>
+<span class="co">#&gt;     mpg cyl disp hp drat   wt qsec vs am gear carb</span>
+<span class="co">#&gt; 18 32.4   4 78.7 66 4.08 2.20 19.5  1  1    4    1</span>
+<span class="co">#&gt; 20 33.9   4 71.1 65 4.22 1.83 19.9  1  1    4    1</span></code></pre>
 <p><code>lazy()</code> has another advantage over <code>substitute()</code> - by default, it follows promises across function invocations. This simplifies the casual use of NSE.</p>
 <pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="dv">31</span>
 g1 &lt;-<span class="st"> </span>function(comp) {
@@ -183,9 +183,9 @@ g1 &lt;-<span class="st"> </span>function(comp) {
   <span class="kw">subset2</span>(mtcars, comp)
 }
 <span class="kw">g2</span>(mpg &gt;<span class="st"> </span>x)
-<span class="co">#&gt;     mpg cyl disp hp drat    wt  qsec vs am gear carb</span>
-<span class="co">#&gt; 18 32.4   4 78.7 66 4.08 2.200 19.47  1  1    4    1</span>
-<span class="co">#&gt; 20 33.9   4 71.1 65 4.22 1.835 19.90  1  1    4    1</span></code></pre>
+<span class="co">#&gt;     mpg cyl disp hp drat   wt qsec vs am gear carb</span>
+<span class="co">#&gt; 18 32.4   4 78.7 66 4.08 2.20 19.5  1  1    4    1</span>
+<span class="co">#&gt; 20 33.9   4 71.1 65 4.22 1.83 19.9  1  1    4    1</span></code></pre>
 <p>Note that <code>g2()</code> doesn’t have a standard-evaluation escape hatch, so it’s not suitable for programming with in the same way that <code>subset2_()</code> is.</p>
 </div>
 
