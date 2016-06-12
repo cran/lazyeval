@@ -54,6 +54,9 @@ interp.name <- function(`_obj`, ..., .values) {
 
 #' @export
 interp.formula <- function(`_obj`, ..., .values) {
+  if (length(`_obj`) != 2)
+    stop("Must use one-sided formula.", call. = FALSE)
+
   values <- all_values(.values, ...)
 
   `_obj`[[2]] <- substitute_(`_obj`[[2]], values)
@@ -74,14 +77,8 @@ interp.character <- function(`_obj`, ..., .values) {
 
   expr1 <- parse(text = `_obj`)[[1]]
   expr2 <- substitute_(expr1, values)
-  deparse(expr2)
+  paste(deparse(expr2), collapse = "\n")
 }
-
-substitute_ <- function(x, env) {
-  call <- substitute(substitute(x, env), list(x = x))
-  eval(call)
-}
-
 
 all_values <- function(.values, ...) {
   if (missing(.values)) {
@@ -92,18 +89,12 @@ all_values <- function(.values, ...) {
   } else {
     values <- .values
   }
-  # Replace lazy objects with their expressions
-  is_lazy <- vapply(values, is.lazy, logical(1))
-  values[is_lazy] <- lapply(values[is_lazy], `[[`, "expr")
+
+  if (is.list(values)) {
+    # Replace lazy objects with their expressions
+    is_lazy <- vapply(values, is.lazy, logical(1))
+    values[is_lazy] <- lapply(values[is_lazy], `[[`, "expr")
+  }
 
   values
-}
-
-#' Generate a missing argument.
-#'
-#' @export
-#' @examples
-#' interp(~f(x), x = missing_arg())
-missing_arg <- function() {
-  quote(expr = )
 }
